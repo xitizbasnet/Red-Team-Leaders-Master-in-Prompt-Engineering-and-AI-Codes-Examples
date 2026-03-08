@@ -1,0 +1,177 @@
+{
+  "_comment": "MCP Server Configuration Examples for Claude Desktop",
+  "_description": "Copy the relevant sections to your claude_desktop_config.json file",
+  "_config_location_macos": "~/Library/Application Support/Claude/claude_desktop_config.json",
+  "_config_location_windows": "%APPDATA%\\Claude\\claude_desktop_config.json",
+
+  "mcpServers": {
+
+    "_section_comment_1": "=== FILE SYSTEM ACCESS ===",
+
+    "filesystem": {
+      "_description": "Read and write files on your local filesystem",
+      "_install": "npm install -g @modelcontextprotocol/server-filesystem",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-filesystem",
+        "/Users/YOUR_USERNAME/Documents",
+        "/Users/YOUR_USERNAME/Projects"
+      ]
+    },
+
+    "_section_comment_2": "=== DATABASES ===",
+
+    "sqlite": {
+      "_description": "Query local SQLite databases",
+      "_install": "npm install -g @modelcontextprotocol/server-sqlite",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-sqlite",
+        "--db-path",
+        "/path/to/your/database.db"
+      ]
+    },
+
+    "postgres": {
+      "_description": "Query PostgreSQL databases",
+      "_install": "npm install -g @modelcontextprotocol/server-postgres",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-postgres",
+        "postgresql://user:password@localhost:5432/dbname"
+      ]
+    },
+
+    "_section_comment_3": "=== DEVELOPMENT TOOLS ===",
+
+    "github": {
+      "_description": "Access GitHub repositories, issues, pull requests",
+      "_install": "npm install -g @modelcontextprotocol/server-github",
+      "_setup": "Create a GitHub Personal Access Token at https://github.com/settings/tokens",
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-github"],
+      "env": {
+        "GITHUB_PERSONAL_ACCESS_TOKEN": "ghp_YOUR_TOKEN_HERE"
+      }
+    },
+
+    "git": {
+      "_description": "Local git repository operations",
+      "_install": "pip install mcp-server-git",
+      "command": "python",
+      "args": ["-m", "mcp_server_git", "--repository", "/path/to/your/repo"]
+    },
+
+    "_section_comment_4": "=== SEARCH ===",
+
+    "brave-search": {
+      "_description": "Web search using Brave Search API",
+      "_install": "npm install -g @modelcontextprotocol/server-brave-search",
+      "_setup": "Get API key at https://brave.com/search/api/",
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-brave-search"],
+      "env": {
+        "BRAVE_API_KEY": "YOUR_BRAVE_API_KEY"
+      }
+    },
+
+    "fetch": {
+      "_description": "Fetch and read web page content",
+      "_install": "npm install -g @modelcontextprotocol/server-fetch",
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-fetch"]
+    },
+
+    "_section_comment_5": "=== COMMUNICATION ===",
+
+    "slack": {
+      "_description": "Send and read Slack messages",
+      "_install": "npm install -g @modelcontextprotocol/server-slack",
+      "_setup": "Create a Slack Bot Token at https://api.slack.com/apps",
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-slack"],
+      "env": {
+        "SLACK_BOT_TOKEN": "xoxb-YOUR_TOKEN",
+        "SLACK_TEAM_ID": "YOUR_TEAM_ID"
+      }
+    },
+
+    "_section_comment_6": "=== PRODUCTIVITY ===",
+
+    "memory": {
+      "_description": "Persistent key-value memory storage",
+      "_install": "npm install -g @modelcontextprotocol/server-memory",
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-memory"]
+    },
+
+    "_section_comment_7": "=== CUSTOM PYTHON SERVERS ===",
+
+    "custom-python-server": {
+      "_description": "Example of running a custom Python MCP server",
+      "command": "python",
+      "args": ["/absolute/path/to/your/mcp_server.py"],
+      "env": {
+        "API_KEY": "your-api-key",
+        "DATABASE_URL": "sqlite:///path/to/db.sqlite"
+      }
+    },
+
+    "custom-python-with-venv": {
+      "_description": "Python MCP server with a specific virtual environment",
+      "command": "/path/to/project/venv/bin/python",
+      "args": ["/path/to/project/server.py"],
+      "env": {
+        "PYTHONPATH": "/path/to/project"
+      }
+    },
+
+    "_section_comment_8": "=== DOCKER-BASED SERVERS ===",
+
+    "docker-server": {
+      "_description": "MCP server running in a Docker container",
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "-e", "API_KEY=your-key",
+        "-v", "/host/data:/app/data",
+        "your-mcp-server-image:latest"
+      ]
+    }
+  },
+
+  "_minimal_config_example": {
+    "_description": "A minimal working config with just filesystem access",
+    "mcpServers": {
+      "filesystem": {
+        "command": "npx",
+        "args": [
+          "-y",
+          "@modelcontextprotocol/server-filesystem",
+          "/Users/YOUR_USERNAME/Documents"
+        ]
+      }
+    }
+  },
+
+  "_troubleshooting": {
+    "server_not_showing": [
+      "1. Make sure the JSON is valid (no trailing commas)",
+      "2. Restart Claude Desktop completely",
+      "3. Check that 'command' is in your system PATH",
+      "4. Use absolute paths for custom scripts",
+      "5. Check logs: ~/Library/Logs/Claude/mcp*.log (macOS)"
+    ],
+    "permission_errors": [
+      "1. Ensure the script has execute permissions",
+      "2. Check that environment variables are set correctly",
+      "3. Verify file/directory permissions for filesystem servers"
+    ],
+    "debugging_tip": "Use the MCP Inspector: npx @modelcontextprotocol/inspector <command> <args>"
+  }
+}
